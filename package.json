@@ -1,0 +1,28 @@
+{
+  "name": "ng-annotate-loader",
+  "version": "0.1",
+  "description": "Webpack loader that runs ng-annotate on your bundles",
+  "main": "loader.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/huston007/ng-annotate-loader.git"
+  },
+  "keywords": [
+    "webpack",
+    "ng-annotate",
+    "angular"
+  ],
+  "author": "Andrey Skladchikov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/huston007/ng-annotate-loader/issues"
+  },
+  "homepage": "https://github.com/huston007/ng-annotate-loader",
+  "dependencies": {
+    "ng-annotate": "^0.15.4",
+    "webpack-core": "^0.4.8"
+  }
+}
