@@ -4,7 +4,7 @@
   "description": "Webpack loader that runs ng-annotate on your bundles",
   "main": "loader.js",
   "scripts": {
-    "build-example": "webpack",
+    "build-example": "rm -rf examples/dist && webpack --config examples/webpack.config",
     "test": "npm run build-example && cmp examples/annotated-reference.js examples/dist/build.js && echo 'Test passed' || exit 123"
   },
   "repository": {
