@@ -1,7 +1,7 @@
 # ng-annotate-loader [![Build Status](https://img.shields.io/travis/huston007/ng-annotate-loader.svg?style=flat-square)](https://travis-ci.org/huston007/ng-annotate-loader)
 Webpack loader to annotate angular applications. Generates a sourcemaps as well.
 
-Usage:
+## Usage:
 
 ```
 module: {
@@ -11,8 +11,24 @@ module: {
   }
 ```
 
-Works great with js compilers, `babel` for example:
+#### Passing parameters: 
+
+```
+	{test: /src.*\.js$/, loaders: ['ng-annotate?add=false&sourcemap=false']}
+```
+
+[More about `ng-annotate` parameters](https://github.com/olov/ng-annotate#library-api)
+
+#### Using ng-annotate plugins: 
+
+```
+	{test: /src.*\.js$/, loaders: ['ng-annotate?add=true&plugin[]=ng-annotate-adf-plugin']}
+```
+
+#### Works great with js compilers, `babel` for example:
 
 ```
     {test: /src.*\.js$/, loaders: ['ng-annotate', 'babel-loader']},
 ```
+
+[Using loaders](http://webpack.github.io/docs/using-loaders.html)

@@ -3,8 +3,11 @@ var utils = require('loader-utils');
 var SourceMapConsumer = require('source-map').SourceMapConsumer;
 var SourceMapGenerator = require('source-map').SourceMapGenerator;
 
-function isEmpty(obj) {
-    return Object.keys(obj).length === 0;
+function loadPlugins(pluginNames) {
+  var pluginNames = pluginNames || [];
+  return pluginNames.map(function(name) {
+    return require(name);
+  });
 }
 
 function getOptions(sourceMapEnabled) {
@@ -15,6 +18,10 @@ function getOptions(sourceMapEnabled) {
     if (sourceMapEnabled && options.sourcemap === undefined) {
         var filename = utils.getCurrentRequest(this);
         options.sourcemap = {inline: false, inFile: filename, sourceRoot: filename};
+    }
+
+    if (options.plugin) {
+      options.plugin = loadPlugins(options.plugin);
     }
 
     return options;
