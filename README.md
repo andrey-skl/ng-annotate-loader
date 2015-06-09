@@ -22,7 +22,7 @@ module: {
 #### Using ng-annotate plugins: 
 
 ```
-	{test: /src.*\.js$/, loaders: ['ng-annotate?add=true&plugin[]=ng-annotate-adf-plugin']}
+	{test: /src.*\.js$/, loaders: ['ng-annotate?plugin[]=ng-annotate-adf-plugin']}
 ```
 
 #### Works great with js compilers, `babel` for example:

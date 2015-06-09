@@ -11,13 +11,20 @@ function loadPlugins(pluginNames) {
 }
 
 function getOptions(sourceMapEnabled) {
-    var defaults = { add: true };
+    var options = utils.parseQuery(this.query);
 
-    var options = this.query ? utils.parseQuery(this.query) : defaults;
+    //"add" should be a default option if not overrided in query
+    if (options.add === undefined) {
+      options.add = true;
+    }
 
     if (sourceMapEnabled && options.sourcemap === undefined) {
         var filename = utils.getCurrentRequest(this);
-        options.sourcemap = {inline: false, inFile: filename, sourceRoot: filename};
+        options.sourcemap = {
+          inline: false, 
+          inFile: filename, 
+          sourceRoot: filename
+        };
     }
 
     if (options.plugin) {
@@ -28,12 +35,11 @@ function getOptions(sourceMapEnabled) {
 }
 
 module.exports = function(source, sm) {
+  var mergeMap;
   var sourceMapEnabled = this.sourceMap;
   this.cacheable && this.cacheable();
 
   var res = ngAnnotate(source, getOptions.call(this, sourceMapEnabled));
-
-  var mergeMap;
 
   if (sourceMapEnabled && sm) {
     var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(sm));
