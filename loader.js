@@ -10,7 +10,7 @@ function loadPlugins(pluginNames) {
   });
 }
 
-function getOptions(sourceMapEnabled) {
+function getOptions(sourceMapEnabled, filename) {
     var options = utils.parseQuery(this.query);
 
     //"add" should be a default option if not overrided in query
@@ -19,7 +19,6 @@ function getOptions(sourceMapEnabled) {
     }
 
     if (sourceMapEnabled && options.sourcemap === undefined) {
-        var filename = utils.getCurrentRequest(this);
         options.sourcemap = {
           inline: false, 
           inFile: filename, 
@@ -37,9 +36,10 @@ function getOptions(sourceMapEnabled) {
 module.exports = function(source, sm) {
   var mergeMap;
   var sourceMapEnabled = this.sourceMap;
+  var filename = utils.getCurrentRequest(this);
   this.cacheable && this.cacheable();
 
-  var res = ngAnnotate(source, getOptions.call(this, sourceMapEnabled));
+  var res = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
 
   if (sourceMapEnabled && sm) {
     var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(sm));
