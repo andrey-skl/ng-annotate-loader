@@ -1,6 +1,6 @@
 {
   "name": "ng-annotate-loader",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Webpack loader that runs ng-annotate on your bundles",
   "main": "loader.js",
   "scripts": {
@@ -24,7 +24,7 @@
   "homepage": "https://github.com/huston007/ng-annotate-loader",
   "dependencies": {
     "ng-annotate": "^0.15.4",
-    "source-map": "^0.4.2",
+    "source-map": "0.4.2",
     "loader-utils": "^0.2.6"
   },
   "devDependencies": {
