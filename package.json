@@ -1,6 +1,6 @@
 {
   "name": "ng-annotate-loader",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Webpack loader that runs ng-annotate on your bundles",
   "main": "loader.js",
   "scripts": {

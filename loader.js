@@ -42,9 +42,9 @@ module.exports = function(source, sm) {
   var res = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
 
   if (sourceMapEnabled && sm) {
-    var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(res.map));
+    var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(sm));
     if (res.map) {
-      generator.applySourceMap(new SourceMapConsumer(sm), filename);
+      generator.applySourceMap(new SourceMapConsumer(res.map), filename);
       mergeMap = generator.toString();
     } else {
       mergeMap = sm;
