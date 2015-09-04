@@ -4,8 +4,8 @@
   "description": "Webpack loader that runs ng-annotate on your bundles",
   "main": "loader.js",
   "scripts": {
-    "build-example": "rm -rf examples/dist && webpack --config examples/webpack.config",
-    "test": "npm run build-example && cmp examples/annotated-reference.js examples/dist/build.js && echo 'Test passed' || exit 123"
+    "build-example": "rm -rf examples/simple/dist && webpack --config examples/simple/webpack.config",
+    "test": "npm run build-example && cmp examples/simple/annotated-reference.js examples/simple/dist/build.js && echo 'Test passed' || exit 123"
   },
   "repository": {
     "type": "git",
@@ -23,12 +23,12 @@
   },
   "homepage": "https://github.com/huston007/ng-annotate-loader",
   "dependencies": {
-    "ng-annotate": "^0.15.4",
+    "ng-annotate": "^1.0.2",
     "source-map": "0.4.2",
     "loader-utils": "^0.2.6"
   },
   "devDependencies": {
     "node-libs-browser": "0.5.2",
-    "webpack": "1.9.10"
+    "webpack": "^1.12.0"
   }
 }
