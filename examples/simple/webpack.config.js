@@ -8,7 +8,7 @@ module.exports = {
         filename: 'build.js'
     },
 	resolveLoader: {
-    	fallback: path.resolve(__dirname, '../')
+    	fallback: path.resolve(__dirname, '../../')
 	},
     module: {
 	    loaders: [

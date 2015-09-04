@@ -23,12 +23,13 @@
   },
   "homepage": "https://github.com/huston007/ng-annotate-loader",
   "dependencies": {
-    "ng-annotate": "^0.15.4",
+    "ng-annotate": "^1.0.2",
     "source-map": "0.4.2",
     "loader-utils": "^0.2.6"
   },
   "devDependencies": {
+    "babel-loader": "^5.3.2",
     "node-libs-browser": "0.5.2",
-    "webpack": "1.9.10"
+    "webpack": "^1.12.0"
   }
 }
