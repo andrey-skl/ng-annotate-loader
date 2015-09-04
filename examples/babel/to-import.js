@@ -1,1 +1,1 @@
-export default 'bable-test';
+export default 'babel-test';
