@@ -17,4 +17,9 @@ angular.module('test', [])
 
 			}
 		};
-	});
+	})
+	.service('namedFunction', namedFunction);
+
+	function namedFunction($dep) {
+		$dep.do();
+	}
