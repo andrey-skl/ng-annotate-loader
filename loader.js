@@ -22,7 +22,6 @@ function getOptions(sourceMapEnabled, filename) {
         options.map = {
           inline: false, 
           inFile: filename, 
-          sourceRoot: filename
         };
     }
 
@@ -33,28 +32,22 @@ function getOptions(sourceMapEnabled, filename) {
     return options;
 }
 
-
-module.exports = function(source, inputSourceMap) {
+function mergeSourceMaps(inputSourceMap, annotateMap) {
   var outputSourceMap;
   var sourceMapEnabled = this.sourceMap;
-  var filename = utils.getCurrentRequest(this);
+  var filename = this.resourcePath;
   this.cacheable && this.cacheable();
 
-  var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));  
- 
-  // Merge source maps.  Using BabelJS as an example,
+  // Using BabelJS as an example,
   //   https://github.com/babel/babel/blob/d3a73b87e9007104cb4fec343f0cfb9e1c67a4ec/packages/babel/src/transformation/file/index.js#L465
   // See also vinyl-sourcemaps-apply (used by gulp-ng-annotate) - https://github.com/floridoo/vinyl-sourcemaps-apply/blob/master/index.js
   if (sourceMapEnabled && inputSourceMap) {    
-    if (annotateResult.map) {
-      var annotateMap = JSON.parse(annotateResult.map);
-      //Sources array should be filled somehow to work with source-map package
-      annotateMap.sources[0] = inputSourceMap.file;
+    if (annotateMap) {
       var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(annotateMap));
-      generator.applySourceMap(new SourceMapConsumer(inputSourceMap));
+      generator.applySourceMap(new SourceMapConsumer(inputSourceMap), filename);
       
       outputSourceMap = generator.toJSON();
-      outputSourceMap.sources = inputSourceMap.sources;
+      
       //Should be set to avoid '../../file is not in SourceMap error https://github.com/huston007/ng-annotate-loader/pull/11'
       outputSourceMap.sourceRoot = '';
       //Copy file name from incoming file because it is empty by some unknown reaon
@@ -63,6 +56,17 @@ module.exports = function(source, inputSourceMap) {
       outputSourceMap = inputSourceMap;
     }
   }
+  
+  return outputSourceMap;
+}
+
+module.exports = function(source, inputSourceMap) {
+  var sourceMapEnabled = this.sourceMap;
+  var filename = this.resourcePath;
+  this.cacheable && this.cacheable();
+
+  var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
+  var outputSourceMap = mergeSourceMaps.call(this, inputSourceMap, annotateResult.map);
   
   this.callback(null, annotateResult.src || source, outputSourceMap);
 };
