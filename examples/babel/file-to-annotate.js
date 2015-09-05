@@ -20,10 +20,21 @@ angular.module('test', [])
 
 			}
 		};
-	});
+	})
+	.controller('someCtrl', someCtrl);
   
 function toAnnotate($scope) {
   'ngInject';
+}
+
+class someCtrl {
+	constructor($scope) {
+		this.doSomething();
+	}
+
+	doSomething() {
+
+	}
 }
 
 console.log('after annotated function');
