@@ -48,13 +48,17 @@ module.exports = function(source, inputSourceMap) {
   if (sourceMapEnabled && inputSourceMap) {    
     if (annotateResult.map) {
       var annotateMap = JSON.parse(annotateResult.map);
-      annotateMap.sources[0] = inputSourceMap.file;
+      //Sources array should be filled somehow to work with source-map package
+      annotateMap.sources[0] = filename;
       
       var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(annotateMap));
       generator.applySourceMap(new SourceMapConsumer(inputSourceMap));
       
       outputSourceMap = generator.toJSON();
       outputSourceMap.sources = inputSourceMap.sources;
+      //Should be set to avoid '../../file is not in SourceMap error https://github.com/huston007/ng-annotate-loader/pull/11'
+      outputSourceMap.sourceRoot = '';
+      //Copy file name from incoming file because it is empty by some unknown reaon
       outputSourceMap.file = inputSourceMap.file;
     } else {
       outputSourceMap = inputSourceMap;
