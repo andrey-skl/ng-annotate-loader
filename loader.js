@@ -32,22 +32,17 @@ function getOptions(sourceMapEnabled, filename) {
     return options;
 }
 
-
-module.exports = function(source, inputSourceMap) {
+function mergeSourceMaps(inputSourceMap, annotateMap) {
   var outputSourceMap;
   var sourceMapEnabled = this.sourceMap;
   var filename = this.resourcePath;
   this.cacheable && this.cacheable();
 
-  var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));  
- 
-  // Merge source maps.  Using BabelJS as an example,
+  // Using BabelJS as an example,
   //   https://github.com/babel/babel/blob/d3a73b87e9007104cb4fec343f0cfb9e1c67a4ec/packages/babel/src/transformation/file/index.js#L465
   // See also vinyl-sourcemaps-apply (used by gulp-ng-annotate) - https://github.com/floridoo/vinyl-sourcemaps-apply/blob/master/index.js
   if (sourceMapEnabled && inputSourceMap) {    
-    if (annotateResult.map) {     
-      var annotateMap = JSON.parse(annotateResult.map);      
-      
+    if (annotateMap) {
       var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(annotateMap));
       generator.applySourceMap(new SourceMapConsumer(inputSourceMap), filename);
       
@@ -61,6 +56,17 @@ module.exports = function(source, inputSourceMap) {
       outputSourceMap = inputSourceMap;
     }
   }
+  
+  return outputSourceMap;
+}
+
+module.exports = function(source, inputSourceMap) {
+  var sourceMapEnabled = this.sourceMap;
+  var filename = this.resourcePath;
+  this.cacheable && this.cacheable();
+
+  var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
+  var outputSourceMap = mergeSourceMaps.call(this, inputSourceMap, annotateResult.map);
   
   this.callback(null, annotateResult.src || source, outputSourceMap);
 };
