@@ -18,8 +18,8 @@ function getOptions(sourceMapEnabled, filename) {
       options.add = true;
     }
 
-    if (sourceMapEnabled && options.sourcemap === undefined) {
-        options.sourcemap = {
+    if (sourceMapEnabled && options.map === undefined) {
+        options.map = {
           inline: false, 
           inFile: filename, 
           sourceRoot: filename
@@ -33,23 +33,33 @@ function getOptions(sourceMapEnabled, filename) {
     return options;
 }
 
-module.exports = function(source, sm) {
-  var mergeMap;
+
+module.exports = function(source, inputSourceMap) {
+  var outputSourceMap;
   var sourceMapEnabled = this.sourceMap;
   var filename = utils.getCurrentRequest(this);
   this.cacheable && this.cacheable();
 
-  var res = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
-
-  if (sourceMapEnabled && sm) {
-    var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(sm));
-    if (res.map) {
-      generator.applySourceMap(new SourceMapConsumer(res.map), filename);
-      mergeMap = generator.toString();
+  var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));  
+ 
+  // Merge source maps.  Using BabelJS as an example,
+  //   https://github.com/babel/babel/blob/d3a73b87e9007104cb4fec343f0cfb9e1c67a4ec/packages/babel/src/transformation/file/index.js#L465
+  // See also vinyl-sourcemaps-apply (used by gulp-ng-annotate) - https://github.com/floridoo/vinyl-sourcemaps-apply/blob/master/index.js
+  if (sourceMapEnabled && inputSourceMap) {    
+    if (annotateResult.map) {
+      var annotateMap = JSON.parse(annotateResult.map);
+      annotateMap.sources[0] = inputSourceMap.file;
+      
+      var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(annotateMap));
+      generator.applySourceMap(new SourceMapConsumer(inputSourceMap));
+      
+      outputSourceMap = generator.toJSON();
+      outputSourceMap.sources = inputSourceMap.sources;
+      outputSourceMap.file = inputSourceMap.file;
     } else {
-      mergeMap = sm;
+      outputSourceMap = inputSourceMap;
     }
   }
-
-  this.callback(null, res.src || source, mergeMap);
+  
+  this.callback(null, annotateResult.src || source, outputSourceMap);
 };
