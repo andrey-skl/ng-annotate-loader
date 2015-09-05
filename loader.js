@@ -49,8 +49,7 @@ module.exports = function(source, inputSourceMap) {
     if (annotateResult.map) {
       var annotateMap = JSON.parse(annotateResult.map);
       //Sources array should be filled somehow to work with source-map package
-      annotateMap.sources[0] = filename;
-      
+      annotateMap.sources[0] = inputSourceMap.file;
       var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(annotateMap));
       generator.applySourceMap(new SourceMapConsumer(inputSourceMap));
       
