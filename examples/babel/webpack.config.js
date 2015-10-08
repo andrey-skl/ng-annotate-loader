@@ -1,5 +1,5 @@
-// Note: this example requires babel-loader
-// npm install babel-loader
+// Note: this example babel and equires babel-loader
+// npm install babel babel-loader
 
 var path = require('path');
 
