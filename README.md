@@ -31,4 +31,12 @@ module: {
     {test: /src.*\.js$/, loaders: ['ng-annotate', 'babel-loader']},
 ```
 
+## Contributing
+#### Compiling examples and run acceptance test
+Run on the root folder:
+```
+npm install
+npm test
+```
+
 [Using loaders](http://webpack.github.io/docs/using-loaders.html)
