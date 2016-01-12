@@ -46,6 +46,7 @@
 
 	'use strict';
 
+		namedFunction.$inject = ["$dep"];
 	angular.module('test', [])
 		.controller('testCtrl', ["$scope", function($scope) {
 
@@ -69,7 +70,6 @@
 		function namedFunction($dep) {
 			$dep.do();
 		}
-		namedFunction.$inject = ["$dep"];
 
 /***/ }
 /******/ ]);

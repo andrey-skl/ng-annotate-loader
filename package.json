@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/huston007/ng-annotate-loader",
   "dependencies": {
-    "ng-annotate": "^1.0.2",
+    "ng-annotate": "1.2.1",
     "source-map": "0.4.2",
     "loader-utils": "^0.2.6"
   },
