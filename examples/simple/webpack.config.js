@@ -7,12 +7,9 @@ module.exports = {
         path: __dirname + '/dist',
         filename: 'build.js'
     },
-	resolveLoader: {
-    	fallback: path.resolve(__dirname, '../../')
-	},
     module: {
 	    loaders: [
-			{test: /\.js$/, loaders: ['loader']},
+			{test: /\.js$/, loaders: [path.resolve(__dirname, '../../loader')]},
     	]
 	}
 }

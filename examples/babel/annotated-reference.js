@@ -37,11 +37,23 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	exports['default'] = 'babel-test';
+	module.exports = exports['default'];
+
+/***/ },
+/* 1 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -53,7 +65,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 	
-	var _toImport = __webpack_require__(1);
+	var _toImport = __webpack_require__(0);
 	
 	var _toImport2 = _interopRequireDefault(_toImport);
 	
@@ -91,18 +103,6 @@
 	})();
 	
 	console.log('after annotated function');
-
-/***/ },
-/* 1 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, '__esModule', {
-	  value: true
-	});
-	exports['default'] = 'babel-test';
-	module.exports = exports['default'];
 
 /***/ }
 /******/ ]);
