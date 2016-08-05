@@ -6,7 +6,6 @@
   "scripts": {
     "example-babel": "rm -rf examples/babel/dist && webpack --config examples/babel/webpack.config",
     "example-simple": "rm -rf examples/simple/dist && webpack --config examples/simple/webpack.config",
-
     "acceptance-test": "bash acceptance-test.sh",
     "test": "npm run acceptance-test"
   },
@@ -26,9 +25,9 @@
   },
   "homepage": "https://github.com/huston007/ng-annotate-loader",
   "dependencies": {
+    "loader-utils": "^0.2.6",
     "ng-annotate": "1.2.1",
-    "source-map": "0.5.4",
-    "loader-utils": "^0.2.6"
+    "source-map": "~0.5.6"
   },
   "devDependencies": {
     "babel-loader": "^5.3.2",
