@@ -49,7 +49,7 @@ function mergeSourceMaps(inputSourceMap, annotateMap) {
 	  // we should remove prefix and leave only filename
 	  for(var i = 0; i < inputSourceMap.sources.length; i++) {
         var chunks = inputSourceMap.sources[i].split('!');
-        inputSourceMap.sources[i] = chunks[chunks.length - 1];
+        inputSourceMap.sources[i] = normalizePath(chunks[chunks.length - 1]);
       }
 	  
       var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(annotateMap));
