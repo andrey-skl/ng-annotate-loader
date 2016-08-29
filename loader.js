@@ -2,6 +2,7 @@ var ngAnnotate = require('ng-annotate');
 var utils = require('loader-utils');
 var SourceMapConsumer = require('source-map').SourceMapConsumer;
 var SourceMapGenerator = require('source-map').SourceMapGenerator;
+var normalizePath = require('normalize-path');
 
 function loadPlugins(pluginNames) {
   var pluginNames = pluginNames || [];
@@ -70,7 +71,8 @@ function mergeSourceMaps(inputSourceMap, annotateMap) {
 
 module.exports = function(source, inputSourceMap) {
   var sourceMapEnabled = this.sourceMap;
-  var filename = this.resourcePath;
+  var filename = normalizePath(this.resourcePath);
+
   this.cacheable && this.cacheable();
 
   var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
