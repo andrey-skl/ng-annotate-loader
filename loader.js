@@ -43,6 +43,14 @@ function mergeSourceMaps(inputSourceMap, annotateMap) {
   // See also vinyl-sourcemaps-apply (used by gulp-ng-annotate) - https://github.com/floridoo/vinyl-sourcemaps-apply/blob/master/index.js
   if (sourceMapEnabled && inputSourceMap) {    
     if (annotateMap) {
+	  // it is important that sources in inputSourceMap be the same as sources in annotateMap, 
+	  // in case when using loaders (babel, tsloader, eslint) filenames in sources will be prefixed with loader executable filename.
+	  // we should remove prefix and leave only filename
+	  for(var i = 0; i < inputSourceMap.sources.length; i++) {
+        var chunks = inputSourceMap.sources[i].split('!');
+        inputSourceMap.sources[i] = chunks[chunks.length - 1];
+      }
+	  
       var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(annotateMap));
       generator.applySourceMap(new SourceMapConsumer(inputSourceMap), filename);
       
