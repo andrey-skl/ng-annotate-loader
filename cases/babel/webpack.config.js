@@ -1,8 +1,11 @@
+// Note: this example babel and equires babel-loader
+// npm install babel babel-loader
+
 var path = require('path');
 
 module.exports = {
 	context: __dirname, 
-    entry: './file-to-annotate',
+    entry: './file-to-annotate.js',
     output: {
         path: __dirname + '/dist',
         filename: 'build.js'
@@ -12,7 +15,11 @@ module.exports = {
 	},
     module: {
 	    loaders: [
-			{test: /\.js$/, loaders: ['loader']},
+			{
+				test: /\.js$/,
+				loaders: ['loader', 'babel?presets[]=es2015'],
+			},
     	]
-	}
+	},
+  	devtool: 'source-map'
 }
