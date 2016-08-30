@@ -33,15 +33,17 @@ for (let testCase of cases) {
             const actualSource = fs.readFileSync(folder + '/dist/build.js', 'utf8');
             const expectedSource = fs.readFileSync(folder + '/reference/build.js', 'utf8');
 
-            t.equal(crlf.setLineEnding(actualSource, 'LF'), crlf.setLineEnding(expectedSource, 'LF'), 'Test annotated source passed');
+            t.equal(actualSource, expectedSource, 'Test annotated source');
 
             const actualMap = prepareMap(fs.readFileSync(folder + '/dist/build.js.map', 'utf8'));
             const expectedMap = prepareMap(fs.readFileSync(folder + '/reference/build.js.map', 'utf8'));
 
-            t.deepEqual(actualMap, expectedMap, 'Test sourcemap  passed');
+          t.deepEqual(actualMap.sourcesContent, expectedMap.sourcesContent, 'Test source map sourceContent');
+          t.deepEqual(actualMap.sources, expectedMap.sources, 'Test source map sources');
+          t.equal(actualMap.mappings, expectedMap.mappings, 'Test source map mappings');
         });
 
-        t.plan(2);
+        t.plan(4);
     });
 }
 
