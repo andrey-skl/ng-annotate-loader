@@ -35,12 +35,16 @@ for (let testCase of cases) {
 
             t.equal(crlf.setLineEnding(actualSource, 'LF'), crlf.setLineEnding(expectedSource, 'LF'), 'Test annotated source passed');
 
-            const actualMap = fs.readFileSync(folder + '/dist/build.js.map', 'utf8');
-            const expectedMap = fs.readFileSync(folder + '/reference/build.js.map', 'utf8');
+            const actualMap = prepareMap(fs.readFileSync(folder + '/dist/build.js.map', 'utf8'));
+            const expectedMap = prepareMap(fs.readFileSync(folder + '/reference/build.js.map', 'utf8'));
 
-            t.equal(crlf.setLineEnding(actualMap, 'LF'), crlf.setLineEnding(expectedMap, 'LF'), 'Test sourcemap  passed')
+            t.equal(actualMap, expectedMap, 'Test sourcemap  passed');
         });
 
         t.plan(2);
     });
+}
+
+function prepareMap(content){
+  return crlf.setLineEnding(content, 'LF').replace(/webpack\/bootstrap [\d\w]+/, 'webpack/bootstrap [hash]'); // remove hash from map
 }
