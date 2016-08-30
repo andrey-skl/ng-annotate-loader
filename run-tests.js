@@ -38,7 +38,7 @@ for (let testCase of cases) {
             const actualMap = prepareMap(fs.readFileSync(folder + '/dist/build.js.map', 'utf8'));
             const expectedMap = prepareMap(fs.readFileSync(folder + '/reference/build.js.map', 'utf8'));
 
-            t.equal(actualMap, expectedMap, 'Test sourcemap  passed');
+            t.deepEqual(actualMap, expectedMap, 'Test sourcemap  passed');
         });
 
         t.plan(2);
@@ -46,5 +46,11 @@ for (let testCase of cases) {
 }
 
 function prepareMap(content){
-  return crlf.setLineEnding(content, 'LF').replace(/webpack\/bootstrap [\d\w]+/g, 'webpack/bootstrap [hash]'); // remove hash from map
+  const map = JSON.parse(content.replace(/webpack\/bootstrap [\d\w]+/g, 'webpack/bootstrap [hash]')); // remove hash from map
+
+  map.sourcesContent = map.sourcesContent.map((sourceContent) => {
+    return crlf.setLineEnding(sourceContent, 'LF');
+  });
+
+  return map;
 }
