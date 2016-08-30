@@ -5,15 +5,11 @@ const webpack = require('webpack');
 const fs = require('fs');
 const crlf = require('crlf-helper');
 
+test.createStream()
+    .pipe(require('tap-spec')())
+    .pipe(process.stdout);
 
-if (process.env.NODE_ENV !== 'test') {
-    const tapSpec = require('tap-spec');
-    test.createStream()
-        .pipe(tapSpec())
-        .pipe(process.stdout);
-}
-
-const cases = ['typescript', 'babel', 'simple' ];
+const cases = ['typescript', 'babel', 'simple'];
 
 for (let testCase of cases) {
     test('Acceptance tests. Case ' + testCase, (t) => {

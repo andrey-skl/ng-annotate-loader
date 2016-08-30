@@ -1,8 +1,4 @@
-// Note: this example babel and equires babel-loader
-// npm install babel babel-loader
-
 var path = require('path');
-const DefinePlugin = require('webpack/lib/DefinePlugin');
 
 module.exports = {
     context: __dirname,
@@ -27,6 +23,8 @@ module.exports = {
     },
     module: {
         preLoaders: [
+            // tslint + awesome-typescript-loader make webpack prefix file path with loader name, and it cause error when merging sourcemaps,
+            // test that case
             { test: /\.ts$/, loader: 'tslint-loader', exclude: /node_modules/ },
         ],
         loaders: [

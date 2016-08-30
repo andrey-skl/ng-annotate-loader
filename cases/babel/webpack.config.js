@@ -1,10 +1,7 @@
-// Note: this example babel and equires babel-loader
-// npm install babel babel-loader
-
 var path = require('path');
 
 module.exports = {
-	context: __dirname, 
+	context: __dirname,
     entry: './file-to-annotate.js',
     output: {
         path: __dirname + '/dist',
