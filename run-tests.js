@@ -9,7 +9,7 @@ test.createStream()
     .pipe(require('tap-spec')())
     .pipe(process.stdout);
 
-const cases = ['typescript', 'babel', 'simple'];
+const cases = ['typescript', 'babel', 'simple', 'uglifyjs'];
 
 for (let testCase of cases) {
     test('Acceptance tests. Case ' + testCase, (t) => {

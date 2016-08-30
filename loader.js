@@ -47,10 +47,8 @@ function mergeSourceMaps(inputSourceMap, annotateMap) {
   //   https://github.com/babel/babel/blob/d3a73b87e9007104cb4fec343f0cfb9e1c67a4ec/packages/babel/src/transformation/file/index.js#L465
   // See also vinyl-sourcemaps-apply (used by gulp-ng-annotate) - https://github.com/floridoo/vinyl-sourcemaps-apply/blob/master/index.js
   if (sourceMapEnabled && inputSourceMap) {
-    inputSourceMap.sources = inputSourceMap.sources.map(function(source) {
-      var chunks = source.split('!');
-      return normalizePath(chunks[chunks.length - 1]);
-    });
+    inputSourceMap.sourceRoot = '';
+    inputSourceMap.sources[0] = filename;
 
     if (annotateMap) {
       var generator = SourceMapGenerator.fromSourceMap(new SourceMapConsumer(annotateMap));
