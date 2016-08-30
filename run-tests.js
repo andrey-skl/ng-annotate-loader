@@ -46,5 +46,5 @@ for (let testCase of cases) {
 }
 
 function prepareMap(content){
-  return crlf.setLineEnding(content, 'LF').replace(/webpack\/bootstrap [\d\w]+/, 'webpack/bootstrap [hash]'); // remove hash from map
+  return crlf.setLineEnding(content, 'LF').replace(/webpack\/bootstrap [\d\w]+/g, 'webpack/bootstrap [hash]'); // remove hash from map
 }
