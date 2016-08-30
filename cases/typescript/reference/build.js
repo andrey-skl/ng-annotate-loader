@@ -79,7 +79,7 @@
 	    return someCtrl;
 	}());
 	console.log('after annotated function');
-	
+		
 
 /***/ },
 /* 1 */
@@ -88,7 +88,7 @@
 	"use strict";
 	exports.__esModule = true;
 	exports["default"] = 'babel-test';
-
+	
 
 /***/ }
 /******/ ]);

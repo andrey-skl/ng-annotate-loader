@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'test') {
         .pipe(process.stdout);
 }
 
-const cases = [/*'babel', 'simple',*/ 'typescript'];
+const cases = ['typescript', 'babel', 'simple' ];
 
 for (let testCase of cases) {
     test('Acceptance tests. Case ' + testCase, (t) => {
@@ -24,23 +24,25 @@ for (let testCase of cases) {
                 throw err; // hard error
             }
 
-            //console[stats.hasErrors() ? 'error' : 'info'](stats.toString({
-            //    version: false,
-            //    hash: false,
-            //    assets: true,
-            //    chunks: false,
-            //    colors: true,
-            //}))
+            if (stats.hasErrors()) {
+              console.error(stats.toString({
+                version: false,
+                hash: false,
+                assets: true,
+                chunks: false,
+                colors: true,
+              }));
+            }
 
             const actualSource = fs.readFileSync(folder + '/dist/build.js', 'utf8');
             const expectedSource = fs.readFileSync(folder + '/reference/build.js', 'utf8');
 
-            t.equal(crlf.setLineEnding(actualSource, 'LF'), crlf.setLineEnding(expectedSource, 'LF'), 'Annotated source is valid');
+            t.equal(crlf.setLineEnding(actualSource, 'LF'), crlf.setLineEnding(expectedSource, 'LF'), 'Test annotated source passed');
 
             const actualMap = fs.readFileSync(folder + '/dist/build.js.map', 'utf8');
             const expectedMap = fs.readFileSync(folder + '/reference/build.js.map', 'utf8');
 
-            t.equal(crlf.setLineEnding(actualMap, 'LF'), crlf.setLineEnding(expectedMap, 'LF'), 'Map is valid')
+            t.equal(crlf.setLineEnding(actualMap, 'LF'), crlf.setLineEnding(expectedMap, 'LF'), 'Test sourcemap  passed')
         });
 
         t.plan(2);
