@@ -74,7 +74,12 @@ module.exports = function(source, inputSourceMap) {
   this.cacheable && this.cacheable();
 
   var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
-  var outputSourceMap = mergeSourceMaps.call(this, inputSourceMap, annotateResult.map);
 
-  this.callback(null, annotateResult.src || source, outputSourceMap);
+  if (annotateResult.src !== source) {
+    var outputSourceMap = mergeSourceMaps.call(this, inputSourceMap, annotateResult.map);
+    this.callback(null, annotateResult.src || source, outputSourceMap);
+  } else {
+    // if ngAnnotate do nothing, return map and result untouched
+    this.callback(null, source, inputSourceMap);
+  }
 };
