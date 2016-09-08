@@ -3,13 +3,13 @@
 const test = require('tape');
 const webpack = require('webpack');
 const fs = require('fs');
-const crlf = require('crlf-helper');
+const SourceMapConsumer = require('source-map').SourceMapConsumer;
 
 test.createStream()
     .pipe(require('tap-spec')())
     .pipe(process.stdout);
 
-const cases = ['typescript', 'babel', 'simple', 'uglifyjs'];
+const cases = ['typescript','simple', 'babel', 'uglifyjs'];
 
 for (let testCase of cases) {
     test('Acceptance tests. Case ' + testCase, (t) => {
@@ -35,24 +35,43 @@ for (let testCase of cases) {
 
             t.equal(actualSource, expectedSource, 'Test annotated source');
 
-            const actualMap = prepareMap(fs.readFileSync(folder + '/dist/build.js.map', 'utf8'));
-            const expectedMap = prepareMap(fs.readFileSync(folder + '/reference/build.js.map', 'utf8'));
-
-          t.deepEqual(actualMap.sourcesContent, expectedMap.sourcesContent, 'Test source map sourceContent');
-          t.deepEqual(actualMap.sources, expectedMap.sources, 'Test source map sources');
-          t.equal(actualMap.mappings, expectedMap.mappings, 'Test source map mappings');
+            const actualMap = fs.readFileSync(folder + '/dist/build.js.map', 'utf8');
+            testMap(t, actualMap, require(folder + '/reference/sourcemap-checkpoints'));
         });
 
-        t.plan(4);
+        t.plan(2);
     });
 }
 
-function prepareMap(content){
-  const map = JSON.parse(content.replace(/webpack\/bootstrap [\d\w]+/g, 'webpack/bootstrap [hash]')); // remove hash from map
+/**
+ *
+ * @param t
+ * @param content
+ * @param {array<{original, generated}>} checkpoints
+ */
+function testMap(t, content, checkpoints){
+  t.test('Check source map cases', (t) => {
+    const rawMap = JSON.parse(content);
+    const map = new SourceMapConsumer(rawMap);
 
-  map.sourcesContent = map.sourcesContent.map((sourceContent) => {
-    return crlf.setLineEnding(sourceContent, 'LF');
+    const sources = rawMap.sources.map((source) => {
+      const matches = source.match(/[^/]+\..+$/);
+      return matches ?  matches[0] : source;
+    });
+
+    t.equal(sources.length, uniq(sources).length, 'No duplicates in sourcemap sources');
+
+    for(let point of checkpoints) {
+      const result = map.generatedPositionFor(point.original);
+
+      t.deepEqual({line: result.line, column: result.column}, point.generated);
+    }
   });
 
-  return map;
+  t.end();
+}
+
+
+function uniq(a) {
+  return Array.from(new Set(a));
 }

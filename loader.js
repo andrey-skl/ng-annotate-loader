@@ -5,7 +5,7 @@ var SourceMapGenerator = require('source-map').SourceMapGenerator;
 var normalizePath = require('normalize-path');
 
 function loadPlugins(pluginNames) {
-  var pluginNames = pluginNames || [];
+  pluginNames = pluginNames || [];
   return pluginNames.map(function(name) {
     return require(name);
   });
