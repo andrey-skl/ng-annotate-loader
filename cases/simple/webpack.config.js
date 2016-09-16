@@ -1,6 +1,3 @@
-// Note: this example babel and equires babel-loader
-// npm install babel babel-loader
-
 var path = require('path');
 
 module.exports = {
@@ -15,8 +12,8 @@ module.exports = {
 	},
     module: {
 	    loaders: [
-			{test: /\.js$/, loaders: ['loader', 'babel']},
+			{test: /\.js$/, loaders: ['loader']},
     	]
 	},
-  devtool: 'source-map'
+	devtool: 'source-map'
 }

@@ -1,5 +1,7 @@
 'use strict';
 
+declare const angular: any;
+
 import babelTestMsg from './to-import';
 console.log(babelTestMsg);
 
@@ -24,7 +26,8 @@ angular.module('test', [])
 	.controller('someCtrl', someCtrl);
   
 function toAnnotate($scope) {
-  'ngInject';
+  	'ngInject';
+	console.log('hi'); // should be function body, otherwise babel remove directive prologue
 }
 
 class someCtrl {
