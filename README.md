@@ -23,7 +23,7 @@ module: {
 	{test: /src.*\.js$/, loaders: ['ng-annotate?add=false&map=false']}
 ```
 
-[More about `ng-annotate` parameters](https://github.com/olov/ng-annotate#library-api)
+[More about `ng-annotate` parameters](https://github.com/olov/ng-annotate/blob/master/OPTIONS.md)
 
 #### Using ng-annotate plugins: 
 
