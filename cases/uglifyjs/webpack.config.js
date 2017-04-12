@@ -1,26 +1,25 @@
 var path = require('path');
-const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+var UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 
 module.exports = {
   context: __dirname,
   entry: './file-to-annotate',
   output: {
     path: __dirname + '/dist',
-    filename: 'build.js'
+    filename: 'build.js',
   },
   resolveLoader: {
-    fallback: path.resolve(__dirname, '../../')
-  },
-  tslint: {
-    configuration: {
-      rules: {
-        quotemark: [true, "double"]
-      }
-    },
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, '../../'),
+    ],
   },
   resolve: {
     extensions: ['.ts'],
-    root: __dirname,
+    modules: [
+      __dirname,
+      'node_modules',
+    ],
   },
   plugins: [
     /**
@@ -35,19 +34,20 @@ module.exports = {
       mangle: {screw_ie8: true},
       compress: {
         screw_ie8: true,
-        warnings: false,  // don't show unreachable variables etc
       },
       comments: false,
     }),
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.ts$/,
-        loaders: ['loader', 'awesome-typescript-loader'],
+        use: [
+          { loader: 'loader' },
+          { loader: 'awesome-typescript-loader' },
+        ],
       },
-    ]
+    ],
   },
-  debug: true,
-  devtool: 'source-map'
+  devtool: 'source-map',
 };

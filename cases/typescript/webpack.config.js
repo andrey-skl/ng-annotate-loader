@@ -1,39 +1,52 @@
 var path = require('path');
 
 module.exports = {
-    context: __dirname,
-    entry: './file-to-annotate',
-    output: {
-        path: __dirname + '/dist',
-        filename: 'build.js'
-    },
-    resolveLoader: {
-        fallback: path.resolve(__dirname, '../../')
-    },
-    tslint: {
-        configuration: {
-            rules: {
-                quotemark: [true, "double"]
-            }
-        },
-    },
-    resolve: {
-        extensions: ['.ts'],
-        root: __dirname,
-    },
-    module: {
-        preLoaders: [
-            // tslint + awesome-typescript-loader make webpack prefix file path with loader name, and it cause error when merging sourcemaps,
-            // test that case
-            { test: /\.ts$/, loader: 'tslint-loader', exclude: /node_modules/ },
-        ],
-        loaders: [
-            {
-                test: /\.ts$/,
-                loaders: ['loader', 'awesome-typescript-loader'],
+  context: __dirname,
+  entry: './file-to-annotate',
+  output: {
+    path: __dirname + '/dist',
+    filename: 'build.js',
+  },
+  resolveLoader: {
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, '../../'),
+    ],
+  },
+  resolve: {
+    extensions: ['.ts'],
+    modules: [
+      __dirname,
+      'node_modules',
+    ],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts$/,
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'tslint-loader',
+            options: {
+              configuration: {
+                rules: {
+                  quotemark: [true, 'double'],
+                },
+              },
             },
-        ]
-    },
-    debug: true,
-    devtool: 'cheap-module-source-map'
+          },
+        ],
+      },
+      {
+        test: /\.ts$/,
+        use: [
+          { loader: 'loader' },
+          { loader: 'awesome-typescript-loader' },
+        ],
+      },
+    ],
+  },
+  devtool: 'cheap-module-source-map',
 };
