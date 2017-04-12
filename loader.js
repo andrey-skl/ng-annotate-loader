@@ -12,25 +12,25 @@ function loadPlugins(pluginNames) {
 }
 
 function getOptions(sourceMapEnabled, filename) {
-    var options = utils.parseQuery(this.query);
+  var options = utils.parseQuery(this.query);
 
-    //"add" should be a default option if not overrided in query
-    if (options.add === undefined) {
-      options.add = true;
-    }
+  //"add" should be a default option if not overrided in query
+  if (options.add === undefined) {
+    options.add = true;
+  }
 
-    if (sourceMapEnabled && options.map === undefined) {
-        options.map = {
-          inline: false,
-          inFile: filename,
-        };
-    }
+  if (sourceMapEnabled && options.map === undefined) {
+    options.map = {
+      inline: false,
+      inFile: filename,
+    };
+  }
 
-    if (options.plugin) {
-      options.plugin = loadPlugins(options.plugin);
-    }
+  if (options.plugin) {
+    options.plugin = loadPlugins(options.plugin);
+  }
 
-    return options;
+  return options;
 }
 
 function mergeSourceMaps(inputSourceMap, annotateMap) {
