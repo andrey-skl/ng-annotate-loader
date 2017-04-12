@@ -8,14 +8,10 @@ module.exports = {
     filename: 'build.js',
   },
   resolveLoader: {
-    fallback: path.resolve(__dirname, '../../'),
-  },
-  tslint: {
-    configuration: {
-      rules: {
-        quotemark: [true, 'double'],
-      },
-    },
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, '../../'),
+    ],
   },
   resolve: {
     extensions: ['.ts'],
@@ -25,18 +21,32 @@ module.exports = {
     ],
   },
   module: {
-    preLoaders: [
-      // tslint + awesome-typescript-loader make webpack prefix file path with loader name, and it cause error when merging sourcemaps,
-      // test that case
-      { test: /\.ts$/, loader: 'tslint-loader', exclude: /node_modules/ },
-    ],
-    loaders: [
+    rules: [
       {
         test: /\.ts$/,
-        loaders: ['loader', 'awesome-typescript-loader'],
+        enforce: 'pre',
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'tslint-loader',
+            options: {
+              configuration: {
+                rules: {
+                  quotemark: [true, 'double'],
+                },
+              },
+            },
+          },
+        ],
+      },
+      {
+        test: /\.ts$/,
+        use: [
+          { loader: 'loader' },
+          { loader: 'awesome-typescript-loader' },
+        ],
       },
     ],
   },
-  debug: true,
   devtool: 'cheap-module-source-map',
 };

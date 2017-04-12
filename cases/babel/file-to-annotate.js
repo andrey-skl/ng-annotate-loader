@@ -3,6 +3,14 @@
 import babelTestMsg from './to-import';
 console.log(babelTestMsg);
 
+class someCtrl {
+  constructor($scope) {
+    this.doSomething();
+  }
+  doSomething() {
+  }
+}
+
 angular.module('test', [])
   .controller('testCtrl', function($scope) {
   })
@@ -24,14 +32,6 @@ angular.module('test', [])
 function toAnnotate($scope) {
   'ngInject';
   console.log('hi'); // should be function body, otherwise babel remove directive prologue
-}
-
-class someCtrl {
-  constructor($scope) {
-    this.doSomething();
-  }
-  doSomething() {
-  }
 }
 
 console.log('after annotated function');

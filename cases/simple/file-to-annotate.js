@@ -1,5 +1,9 @@
 'use strict';
 
+function namedFunction($dep) {
+  $dep.do();
+}
+
 angular.module('test', [])
   .controller('testCtrl', function($scope) {
   })
@@ -17,7 +21,3 @@ angular.module('test', [])
     };
   })
   .service('namedFunction', namedFunction);
-
-function namedFunction($dep) {
-  $dep.do();
-}

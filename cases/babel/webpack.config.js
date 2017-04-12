@@ -8,13 +8,19 @@ module.exports = {
     filename: 'build.js',
   },
   resolveLoader: {
-    fallback: path.resolve(__dirname, '../../'),
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, '../../'),
+    ],
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
-        loaders: ['loader', 'babel?presets[]=es2015'],
+        use: [
+          { loader: 'loader' },
+          { loader: 'babel-loader', options: { presets: ['es2015'] } },
+        ],
       },
     ],
   },

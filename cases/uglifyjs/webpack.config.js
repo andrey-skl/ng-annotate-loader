@@ -9,18 +9,17 @@ module.exports = {
     filename: 'build.js',
   },
   resolveLoader: {
-    fallback: path.resolve(__dirname, '../../'),
-  },
-  tslint: {
-    configuration: {
-      rules: {
-        quotemark: [true, 'double'],
-      },
-    },
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, '../../'),
+    ],
   },
   resolve: {
     extensions: ['.ts'],
-    root: __dirname,
+    modules: [
+      __dirname,
+      'node_modules',
+    ],
   },
   plugins: [
     /**
@@ -35,19 +34,20 @@ module.exports = {
       mangle: {screw_ie8: true},
       compress: {
         screw_ie8: true,
-        warnings: false, // don't show unreachable variables etc
       },
       comments: false,
     }),
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.ts$/,
-        loaders: ['loader', 'awesome-typescript-loader'],
+        use: [
+          { loader: 'loader' },
+          { loader: 'awesome-typescript-loader' },
+        ],
       },
     ],
   },
-  debug: true,
   devtool: 'source-map',
 };

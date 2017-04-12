@@ -12,7 +12,7 @@ function loadPlugins(pluginNames) {
 }
 
 function getOptions(sourceMapEnabled, filename) {
-  var options = utils.parseQuery(this.query);
+  var options = utils.getOptions(this) || {};
 
   //"add" should be a default option if not overrided in query
   if (options.add === undefined) {

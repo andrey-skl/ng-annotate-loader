@@ -8,11 +8,17 @@ module.exports = {
     filename: 'build.js',
   },
   resolveLoader: {
-    fallback: path.resolve(__dirname, '../../'),
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, '../../'),
+    ],
   },
   module: {
-    loaders: [
-      { test: /\.js$/, loaders: ['loader'] },
+    rules: [
+      {
+        test: /\.js$/,
+        use: [{ loader: 'loader' }],
+      },
     ],
   },
   devtool: 'source-map',
