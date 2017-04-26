@@ -75,7 +75,9 @@ module.exports = function(source, inputSourceMap) {
 
   var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
 
-  if (annotateResult.src !== source) {
+  if (annotateResult.errors) {
+    this.callback(annotateResult.errors);
+  } else if (annotateResult.src !== source) {
     var outputSourceMap = mergeSourceMaps.call(this, inputSourceMap, annotateResult.map);
     this.callback(null, annotateResult.src || source, outputSourceMap);
   } else {
