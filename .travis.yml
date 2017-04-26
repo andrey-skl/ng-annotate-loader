@@ -9,5 +9,6 @@ script:
   - npm test
 
 cache:
+  yarn: true
   directories:
     - node_modules
