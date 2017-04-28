@@ -1,4 +1,3 @@
-var ngAnnotate = require('ng-annotate');
 var utils = require('loader-utils');
 var SourceMapConsumer = require('source-map').SourceMapConsumer;
 var SourceMapGenerator = require('source-map').SourceMapGenerator;
@@ -73,6 +72,7 @@ module.exports = function(source, inputSourceMap) {
   var filename = normalizePath(this.resourcePath);
   this.cacheable && this.cacheable();
 
+  var ngAnnotate = require((utils.getOptions(this) || {}).ngAnnotate || 'ng-annotate');
   var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
 
   if (annotateResult.errors) {

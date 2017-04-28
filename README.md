@@ -56,6 +56,22 @@ module: {
 }
 ```
 
+#### Using a fork of ng-annotate:
+
+```js
+{
+  test: /src.*\.js$/,
+  use: [
+    {
+      loader: 'ng-annotate-loader',
+      options: {
+        ngAnnotate: 'my-ng-annotate-fork'
+      }
+    }
+  ]
+}
+```
+
 #### Works great with js compilers, `babel` for example:
 
 ```js
