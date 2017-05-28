@@ -1,4 +1,5 @@
 var utils = require('loader-utils');
+var clone = require('clone');
 var SourceMapConsumer = require('source-map').SourceMapConsumer;
 var SourceMapGenerator = require('source-map').SourceMapGenerator;
 var normalizePath = require('normalize-path');
@@ -11,11 +12,16 @@ function loadPlugins(pluginNames) {
 }
 
 function getOptions(sourceMapEnabled, filename) {
-  var options = utils.getOptions(this) || {};
+  //  options object may be re-used across multiple invocations.
+  var options = clone(utils.getOptions(this) || {});
 
   //"add" should be a default option if not overrided in query
   if (options.add === undefined) {
     options.add = true;
+  }
+
+  if (options.ngAnnotate === undefined) {
+    options.ngAnnotate = 'ng-annotate';
   }
 
   if (sourceMapEnabled && options.map === undefined) {
@@ -72,8 +78,10 @@ module.exports = function(source, inputSourceMap) {
   var filename = normalizePath(this.resourcePath);
   this.cacheable && this.cacheable();
 
-  var ngAnnotate = require((utils.getOptions(this) || {}).ngAnnotate || 'ng-annotate');
-  var annotateResult = ngAnnotate(source, getOptions.call(this, sourceMapEnabled, filename));
+  var options = getOptions.call(this, sourceMapEnabled, filename);
+
+  var ngAnnotate = require(options.ngAnnotate);
+  var annotateResult = ngAnnotate(source, options);
 
   if (annotateResult.errors) {
     this.callback(annotateResult.errors);
@@ -81,7 +89,7 @@ module.exports = function(source, inputSourceMap) {
     var outputSourceMap = mergeSourceMaps.call(this, inputSourceMap, annotateResult.map);
     this.callback(null, annotateResult.src || source, outputSourceMap);
   } else {
-    // if ngAnnotate do nothing, return map and result untouched
+    // if ngAnnotate did nothing, return map and result untouched
     this.callback(null, source, inputSourceMap);
   }
 };
