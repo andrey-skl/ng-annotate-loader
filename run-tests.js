@@ -30,7 +30,7 @@ for (let testCase of cases) {
         }));
       }
 
-      const actualSource = fs.readFileSync(folder + '/dist/build.js', 'utf8');
+      const actualSource = fs.readFileSync(folder + '/dist/build.js', 'utf8').replace(/\r\n/g, "\n");
       const expectedSource = fs.readFileSync(folder + '/reference/build.js', 'utf8');
 
       t.equal(actualSource, expectedSource, 'Test annotated source');
