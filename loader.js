@@ -70,7 +70,11 @@ function mergeSourceMaps(inputSourceMap, annotateMap) {
     }
   }
 
-  return outputSourceMap;
+  if (typeof outputSourceMap == 'string') {
+    return JSON.parse(outputSourceMap);
+  } else {
+    return outputSourceMap;
+  }
 }
 
 module.exports = function(source, inputSourceMap) {
