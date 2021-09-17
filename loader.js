@@ -21,7 +21,7 @@ function getOptions(sourceMapEnabled, filename) {
   }
 
   if (options.ngAnnotate === undefined) {
-    options.ngAnnotate = 'ng-annotate';
+    options.ngAnnotate = 'ng-annotate-patched';
   }
 
   if (sourceMapEnabled && options.map === undefined) {
